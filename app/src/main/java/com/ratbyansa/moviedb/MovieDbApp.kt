@@ -4,6 +4,7 @@ import android.app.Application
 import com.ratbyansa.moviedb.di.databaseModule
 import com.ratbyansa.moviedb.di.networkModule
 import com.ratbyansa.moviedb.di.repositoryModule
+import com.ratbyansa.moviedb.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +17,12 @@ class MovieDbApp: Application() {
         startKoin {
             androidLogger()
             androidContext(this@MovieDbApp)
-            modules(networkModule, databaseModule, repositoryModule)
+            modules(
+                networkModule,
+                databaseModule,
+                repositoryModule,
+                viewModelModule
+            )
         }
     }
 }
