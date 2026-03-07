@@ -1,4 +1,4 @@
-package com.ratbyansa.moviedb.ui.screen
+package com.ratbyansa.moviedb.ui.screen.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

@@ -51,6 +51,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ratbyansa.moviedb.data.local.entity.GenreEntity
 import com.ratbyansa.moviedb.ui.common.UiState
+import com.ratbyansa.moviedb.ui.screen.common.AllGenresBottomSheet
+import com.ratbyansa.moviedb.ui.screen.common.ErrorBottomSheet
+import com.ratbyansa.moviedb.ui.screen.common.FavoriteQuickActionRow
 import com.ratbyansa.moviedb.ui.viewmodel.FavoriteViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.GenreViewModel
 import org.koin.androidx.compose.koinViewModel

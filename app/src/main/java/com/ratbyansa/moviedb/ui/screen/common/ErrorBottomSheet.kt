@@ -1,4 +1,4 @@
-package com.ratbyansa.moviedb.ui.screen
+package com.ratbyansa.moviedb.ui.screen.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

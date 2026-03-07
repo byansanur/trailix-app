@@ -1,4 +1,4 @@
-package com.ratbyansa.moviedb.ui.screen
+package com.ratbyansa.moviedb.ui.screen.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ratbyansa.moviedb.data.local.entity.GenreEntity
+import com.ratbyansa.moviedb.ui.screen.GenreCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
