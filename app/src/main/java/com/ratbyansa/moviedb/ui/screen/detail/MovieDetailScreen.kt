@@ -1,6 +1,7 @@
 package com.ratbyansa.moviedb.ui.screen.detail
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -67,6 +68,7 @@ import com.ratbyansa.moviedb.data.remote.model.CastDto
 import com.ratbyansa.moviedb.data.remote.model.GenreDto
 import com.ratbyansa.moviedb.data.remote.model.MovieDetailResponse
 import com.ratbyansa.moviedb.ui.common.UiState
+import com.ratbyansa.moviedb.ui.navigation.Screen
 import com.ratbyansa.moviedb.ui.screen.common.ErrorBottomSheet
 import com.ratbyansa.moviedb.ui.screen.detail.component.ActionButtons
 import com.ratbyansa.moviedb.ui.screen.detail.component.BackdropImage
@@ -77,6 +79,8 @@ import com.ratbyansa.moviedb.ui.screen.detail.component.SynopsisSection
 import com.ratbyansa.moviedb.ui.screen.detail.component.TitleSection
 import com.ratbyansa.moviedb.ui.screen.detail.component.TopAppBarButtons
 import com.ratbyansa.moviedb.ui.viewmodel.MovieDetailViewModel
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -84,7 +88,8 @@ import org.koin.androidx.compose.koinViewModel
 fun MovieDetailScreen(
     movieId: Long,
     viewModel: MovieDetailViewModel = koinViewModel(),
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onSeeReview: (String) -> Unit
 ) {
     val uiState by viewModel.detailState.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
@@ -168,7 +173,15 @@ fun MovieDetailScreen(
                     }
                     item {
                         Spacer(modifier = Modifier.height(32.dp))
-                        ActionButtons()
+                        ActionButtons(
+                            onReadReviewsClick = {
+                                // Encode objek movie ke JSON string
+                                val movieJson = Json.encodeToString(movie)
+                                // Encode URI agar karakter khusus seperti '/' di posterPath tidak merusak rute
+                                val encodedJson = Uri.encode(movieJson)
+                                onSeeReview(encodedJson)
+                            }
+                        )
                         Spacer(modifier = Modifier.height(128.dp))
                     }
                 }

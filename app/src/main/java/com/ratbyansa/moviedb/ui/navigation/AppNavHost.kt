@@ -1,5 +1,6 @@
 package com.ratbyansa.moviedb.ui.navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -9,13 +10,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ratbyansa.moviedb.data.remote.model.MovieDetailResponse
 import com.ratbyansa.moviedb.ui.screen.GenreScreen
 import com.ratbyansa.moviedb.ui.screen.SearchScreen
 import com.ratbyansa.moviedb.ui.screen.detail.MovieDetailScreen
 import com.ratbyansa.moviedb.ui.screen.movie.MovieListScreen
+import com.ratbyansa.moviedb.ui.screen.review.ReviewScreen
 import com.ratbyansa.moviedb.ui.viewmodel.FavoriteViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.GenreViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.MovieViewModel
+import com.ratbyansa.moviedb.ui.viewmodel.ReviewViewModel
+import kotlinx.serialization.json.Json
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -91,6 +96,22 @@ fun AppNavHost(
 
             MovieDetailScreen(
                 movieId = movieId,
+                onBackClick = { navController.popBackStack() },
+                onSeeReview = { movieJson ->
+                    navController.navigate(Screen.UserReviews.createRoute(movieJson))
+                }
+            )
+        }
+
+        composable(
+            route = Screen.UserReviews.route,
+            arguments = listOf(navArgument("movieData") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val movieJson = backStackEntry.arguments?.getString("movieData") ?: ""
+            val movie = Json.decodeFromString<MovieDetailResponse>(Uri.decode(movieJson))
+
+            ReviewScreen(
+                movie = movie,
                 onBackClick = { navController.popBackStack() }
             )
         }

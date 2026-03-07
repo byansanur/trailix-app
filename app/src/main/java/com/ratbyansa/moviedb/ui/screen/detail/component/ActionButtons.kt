@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ActionButtons() {
+fun ActionButtons(
+    onReadReviewsClick: () -> Unit
+) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Button(
             onClick = { /* Get Tickets */ },
@@ -30,7 +32,7 @@ fun ActionButtons() {
         }
         Spacer(modifier = Modifier.height(12.dp))
         Button(
-            onClick = { /* Read Reviews */ },
+            onClick = { onReadReviewsClick() },
             modifier = Modifier.fillMaxWidth().height(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant,

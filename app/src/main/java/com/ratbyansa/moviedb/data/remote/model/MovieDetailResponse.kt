@@ -1,7 +1,10 @@
 package com.ratbyansa.moviedb.data.remote.model
 
+import android.net.Uri
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class MovieDetailResponse(
@@ -12,6 +15,7 @@ data class MovieDetailResponse(
     @SerialName("backdrop_path") val backdropPath: String? = null,
     @SerialName("release_date") val releaseDate: String = "",
     @SerialName("vote_average") val voteAverage: Double = 0.0,
+    @SerialName("vote_count") val voteCount: Long = 0,
     val runtime: Int = 0, // Dalam satuan menit
     val tagline: String = "",
     val genres: List<GenreDto> = emptyList(),
@@ -24,6 +28,11 @@ data class MovieDetailResponse(
         val minutes = runtime % 60
         return if (hours > 0) "${hours}h ${minutes}m" else "${minutes}m"
     }
+}
+
+fun MovieDetailResponse.toRoute(): String {
+    val json = Json.encodeToString(this)
+    return Uri.encode(json) // Penting untuk meng-encode karakter khusus seperti "/"
 }
 
 @Serializable
