@@ -16,8 +16,8 @@ sealed class Screen(val route: String) {
         fun createRoute() = "search"
     }
 
-    object UserReviews : Screen("user_reviews/{movieId}") {
-        fun createRoute(movieId: Long) = "user_reviews/$movieId"
+    object UserReviews : Screen("user_reviews/{movieData}") {
+        fun createRoute(movieData: String) = "user_reviews/$movieData"
     }
 
     object TrailerPlayer : Screen("trailer_player/{videoKey}") {
