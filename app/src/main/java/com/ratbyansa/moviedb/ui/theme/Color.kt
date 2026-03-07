@@ -9,3 +9,13 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
+val recentSearchColors = listOf(
+    Color(0xFFE57373),
+    Color(0xFFFFB74D),
+    Color(0xFF9575CD),
+    Color(0xFF64B5F6),
+    Color(0xFF4DB6AC),
+    Color(0xFFF06292),
+    Color(0xFF81C784)
+)
