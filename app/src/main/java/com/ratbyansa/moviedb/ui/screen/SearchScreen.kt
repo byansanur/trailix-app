@@ -33,18 +33,23 @@ import androidx.paging.compose.itemKey
 import com.ratbyansa.moviedb.data.local.entity.SearchHistoryEntity
 import com.ratbyansa.moviedb.ui.screen.movie.MovieItem
 import com.ratbyansa.moviedb.ui.theme.recentSearchColors
+import com.ratbyansa.moviedb.ui.viewmodel.FavoriteViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.SearchViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
     onBackClick: () -> Unit,
-    onMovieClick: (Long) -> Unit
+    onMovieClick: (Long) -> Unit,
+    favoriteViewModel: FavoriteViewModel = koinViewModel()
 ) {
     val searchQuery by viewModel.searchQuery.collectAsState()
     val searchResults = viewModel.searchResult.collectAsLazyPagingItems()
     val history by viewModel.searchHistory.collectAsState()
+
+    val favorites by favoriteViewModel.favoriteMovies.collectAsState()
 
     val isResultsEmpty by remember(searchResults.loadState, searchResults.itemCount) {
         derivedStateOf {
@@ -98,15 +103,33 @@ fun SearchScreen(
         Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             when {
                 searchQuery.isEmpty() -> {
-                    // Tampilan saat belum mengetik apapun
-                    if (history.isEmpty()) {
-                        EmptySearchPlaceholder(message = "Search your favorite movies")
-                    } else {
-                        RecentSearchList(
-                            history = history,
-                            onItemClick = { viewModel.onSearchQueryChanged(it) },
-                            onDeleteClick = { viewModel.deleteHistory(it) }
-                        )
+                    // Gunakan LazyColumn agar Recent Search dan Favorites bisa di-scroll bersama
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        item {
+                            if (history.isEmpty()) {
+                                // Placeholder jika benar-benar kosong semua
+                                if (favorites.isEmpty()) {
+                                    EmptySearchPlaceholder(message = "Search your favorite movies")
+                                }
+                            } else {
+                                RecentSearchList(
+                                    history = history,
+                                    onItemClick = { viewModel.onSearchQueryChanged(it) },
+                                    onDeleteClick = { viewModel.deleteHistory(it) }
+                                )
+                            }
+                        }
+
+                        // Tampilkan Favorit jika ada
+                        if (favorites.isNotEmpty()) {
+                            item {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                FavoriteQuickActionRow(
+                                    favorites = favorites,
+                                    onMovieClick = onMovieClick
+                                )
+                            }
+                        }
                     }
                 }
                 isResultsEmpty -> {
@@ -175,7 +198,7 @@ fun RecentSearchList(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp)
     ) {
         Row(
@@ -185,7 +208,7 @@ fun RecentSearchList(
         ) {
             Text(
                 text = "Recent Searches",
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -193,14 +216,12 @@ fun RecentSearchList(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Menggunakan FlowRow agar Chip otomatis pindah ke baris baru jika penuh
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             history.forEachIndexed { index, item ->
-                // Pilih warna berdasarkan index agar konsisten namun terlihat acak
                 val bgColor = remember(item.keys) {
                     recentSearchColors[index % recentSearchColors.size]
                 }
@@ -211,7 +232,7 @@ fun RecentSearchList(
                         Text(
                             text = item.keys,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White // Teks putih agar kontras dengan warna background
+                            color = Color.White
                         )
                     },
                     trailingIcon = {

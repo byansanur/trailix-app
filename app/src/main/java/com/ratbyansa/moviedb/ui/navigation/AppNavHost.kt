@@ -47,10 +47,12 @@ fun AppNavHost(
         }
 
         composable(Screen.MovieSearch.route) {
+            val favViewModel: FavoriteViewModel = koinViewModel()
             SearchScreen(
                 viewModel = koinViewModel(),
                 onBackClick = { navController.popBackStack() },
-                onMovieClick = { movieId -> navController.navigate(Screen.MovieDetail.createRoute(movieId)) }
+                onMovieClick = { movieId -> navController.navigate(Screen.MovieDetail.createRoute(movieId)) },
+                favoriteViewModel = favViewModel
             )
         }
 
