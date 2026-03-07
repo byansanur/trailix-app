@@ -1,5 +1,6 @@
 package com.ratbyansa.moviedb.ui.screen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,10 +18,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -36,7 +39,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -55,6 +62,7 @@ fun GenreScreen(
     onGenreClick: (GenreEntity) -> Unit
 ) {
     val uiState by viewModel.genreState.collectAsState()
+    var isExpanded by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -62,7 +70,6 @@ fun GenreScreen(
                 title = { Text("TMDB Explorer", fontWeight = FontWeight.Bold) },
                 actions = {
                     IconButton(onClick = { /* Search */ }) { Icon(Icons.Default.Search, null) }
-                    //IconButton(onClick = { /* Dark Mode */ }) { Icon(Icons.Default.Dark, null) }
                 }
             )
         }
@@ -72,7 +79,6 @@ fun GenreScreen(
                 .padding(padding)
                 .padding(horizontal = 16.dp)
         ) {
-            // Header Section sesuai desain
             Spacer(modifier = Modifier.height(16.dp))
             Text("DISCOVER", style = MaterialTheme.typography.labelLarge, color = Color.Gray)
             Text(
@@ -86,7 +92,6 @@ fun GenreScreen(
             )
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Body Section berdasarkan UI State
             when (uiState) {
                 is UiState.Loading -> {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -94,20 +99,37 @@ fun GenreScreen(
                     }
                 }
                 is UiState.Success -> {
-                    val genres = (uiState as UiState.Success<List<GenreEntity>>).data
+                    val allGenres = (uiState as UiState.Success<List<GenreEntity>>).data
+                    val displayedGenres by remember(isExpanded, uiState) {
+                        derivedStateOf {
+                            if (uiState is UiState.Success) {
+                                val all = (uiState as UiState.Success<List<GenreEntity>>).data
+                                if (isExpanded) all else all.take(7)
+                            } else {
+                                emptyList()
+                            }
+                        }
+                    }
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(bottom = 24.dp)
                     ) {
-                        items(genres) { genre ->
+                        items(
+                            items =displayedGenres,
+                            key = { it.id }
+                        ) { genre ->
                             GenreCard(genre = genre, onClick = { onGenreClick(genre) })
+                        }
+                        if (!isExpanded && allGenres.size > 7) {
+                            item {
+                                SeeMoreCard(onClick = { isExpanded = true })
+                            }
                         }
                     }
                 }
                 is UiState.Error -> {
-                    // Penanganan Negative Case (Story 7)
                     Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("Oops! Terjadi kesalahan koneksi.")
                         Button(onClick = { viewModel.getGenres() }) { Text("Coba Lagi") }
@@ -120,6 +142,39 @@ fun GenreScreen(
 }
 
 @Composable
+fun SeeMoreCard(onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(140.dp)
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)), // Abu-abu terang
+        border = BorderStroke(1.dp, Color.LightGray)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                contentDescription = null,
+                tint = Color.Gray,
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "See More",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.DarkGray,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+
 fun getGenreStyle(name: String): Triple<Color, ImageVector, String> {
     return when (name) {
         "Action" -> Triple(Color(0xFFE57373), Icons.Default.Search, "High energy & stunts")
@@ -137,7 +192,8 @@ fun GenreCard(
     genre: GenreEntity,
     onClick: () -> Unit
 ) {
-    val (bgColor, icon, tagline) = getGenreStyle(genre.name)
+    val genreStyle = remember(genre.id) { getGenreStyle(genre.name) }
+    val (bgColor, icon, tagline) = genreStyle
 
     Card(
         modifier = Modifier
@@ -148,7 +204,6 @@ fun GenreCard(
         colors = CardDefaults.cardColors(containerColor = bgColor)
     ) {
         Box(modifier = Modifier.padding(16.dp).fillMaxSize()) {
-            // Ikon di pojok kanan (transparan sedikit agar estetik)
             Icon(
                 imageVector = icon,
                 contentDescription = null,
@@ -159,7 +214,6 @@ fun GenreCard(
                 tint = Color.White
             )
 
-            // Teks di kiri bawah
             Column(modifier = Modifier.align(Alignment.BottomStart)) {
                 Text(
                     text = genre.name,
