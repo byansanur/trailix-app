@@ -29,5 +29,7 @@ val databaseModule = module {
 
     // Menyediakan DAO secara spesifik agar mudah di-inject ke Repository
     single { get<MovieDatabase>().movieDao() }
+    single { get<MovieDatabase>().genreDao() }
     single { get<MovieDatabase>().remoteKeysDao() }
+    single { get<MovieDatabase>().searchHistoryDao() }
 }

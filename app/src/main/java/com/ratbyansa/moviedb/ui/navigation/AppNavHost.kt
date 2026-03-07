@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ratbyansa.moviedb.ui.screen.GenreScreen
+import com.ratbyansa.moviedb.ui.screen.SearchScreen
 import com.ratbyansa.moviedb.ui.screen.movie.MovieListScreen
 import com.ratbyansa.moviedb.ui.viewmodel.GenreViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.MovieViewModel
@@ -31,7 +32,18 @@ fun AppNavHost(
                 viewModel = viewModel,
                 onGenreClick = { genre ->
                     navController.navigate(Screen.MovieList.createRoute(genre.id, genre.name))
+                },
+                onSearchClick = {
+                    navController.navigate(Screen.MovieSearch.createRoute())
                 }
+            )
+        }
+
+        composable(Screen.MovieSearch.route) {
+            SearchScreen(
+                viewModel = koinViewModel(),
+                onBackClick = { navController.popBackStack() },
+                onMovieClick = { movieId -> navController.navigate("movieDetail/$movieId") }
             )
         }
 
