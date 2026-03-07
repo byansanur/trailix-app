@@ -34,6 +34,7 @@ android {
         buildConfigField("String", "imageUrl", getLocalProperty("imageUrl"))
         buildConfigField("String", "apiKey", getLocalProperty("apiKey"))
         buildConfigField("String", "accessToken", getLocalProperty("accessToken"))
+        buildConfigField("String", "dbKeySecret", getLocalProperty("dbKeySecretSha256"))
     }
 
     buildTypes {
@@ -92,6 +93,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
+
+    // Sql security
+    implementation(libs.bundles.database.security)
 
     // Paging 3
     implementation(libs.androidx.paging.runtime)
