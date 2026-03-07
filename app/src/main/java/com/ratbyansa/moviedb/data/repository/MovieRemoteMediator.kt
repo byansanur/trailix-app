@@ -23,7 +23,7 @@ class MovieRemoteMediator(
     // LOGIKA ANTI BONCOS:
     // Jika data di lokal sudah ada, jangan paksa refresh dari API saat aplikasi dibuka
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.SKIP_INITIAL_REFRESH
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
 
     override suspend fun load(
