@@ -41,7 +41,9 @@ To run this project on your local machine:
 
 **1. Clone this repository:**
 ```bash
+
 git clone https://github.com/byansanur/moviedb-android-app.git
+
 ```
 
 **2. Open in Android Studio:**
