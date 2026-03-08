@@ -1,9 +1,9 @@
 name: Android CI
 
-# CI akan berjalan setiap ada Push atau Pull Request ke branch 'main' atau 'master'
+# CI akan berjalan setiap ada Push atau Merge ke branch 'main'
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -15,14 +15,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Setup Java Development Kit (JDK) 11 (Sesuai dengan gradle project-mu)
+      # 2. Setup Java Development Kit (JDK) 11
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # 3. Setup Gradle dan Cache (Agar build selanjutnya lebih cepat)
+      # 3. Setup Gradle dan Cache
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
@@ -41,7 +41,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 6. Menjalankan Linter & Unit Test (Disarankan agar kode tetap bersih)
+      # 6. Menjalankan Linter & Unit Test
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
