@@ -49,13 +49,12 @@ fun AllGenresBottomSheet(
                 modifier = Modifier.padding(vertical = 16.dp)
             )
 
-            // Menggunakan LazyVerticalGrid di dalam BottomSheet
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(bottom = 32.dp),
-                modifier = Modifier.fillMaxHeight(0.8f) // Batasi tinggi agar tidak full screen
+                modifier = Modifier.fillMaxHeight(0.8f)
             ) {
                 items(
                     items = allGenres,

@@ -25,7 +25,6 @@ class MovieRepository(
         if (count == 0L) {
             val response = ktorClient.get("genre/movie/list").body<GenreListResponse>()
 
-            // Mapping DTO ke Entity Room
             val entities = response.genres.map {
                 GenreEntity(id = it.id, name = it.name)
             }

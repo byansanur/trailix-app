@@ -54,7 +54,7 @@ fun CastSection(
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
-                    .clickable { onSeeAllClick() } // Aktifkan klik di tulisan See all
+                    .clickable { onSeeAllClick() }
                     .padding(4.dp)
             )
         }
@@ -68,7 +68,6 @@ fun CastSection(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Tampilkan 4 aktor
             displayedCast.forEach { actor ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,21 +92,19 @@ fun CastSection(
                     )
                 }
             }
-
-            // Tampilkan badge sisa aktor (jika ada lebih dari 4)
             if (remainingCount > 0) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .width(70.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .clickable { onSeeAllClick() } // Aktifkan klik di badge
+                        .clickable { onSeeAllClick() }
                 ) {
                     Box(
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
-                            .background(Color(0xFFE0E0E0)), // Warna abu-abu
+                            .background(Color(0xFFE0E0E0)),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(

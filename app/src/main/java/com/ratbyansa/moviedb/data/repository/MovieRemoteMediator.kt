@@ -21,8 +21,6 @@ class MovieRemoteMediator(
     private val ktorClient: HttpClient
 ) : RemoteMediator<Long, MovieEntity>() {
 
-    // LOGIKA ANTI BONCOS:
-    // Jika data di lokal sudah ada, jangan paksa refresh dari API saat aplikasi dibuka
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
@@ -44,7 +42,6 @@ class MovieRemoteMediator(
                 }
             }
 
-            // Hit API hanya jika dibutuhkan oleh Paging 3
             val response = ktorClient.get("discover/movie") {
                 url {
                     parameters.append("with_genres", genreId.toString())

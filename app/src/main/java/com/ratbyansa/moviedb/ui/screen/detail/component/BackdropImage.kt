@@ -34,7 +34,6 @@ fun BackdropImage(
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        // Gradient overlay bawah agar menyatu dengan background gelap
         Box(
             modifier = Modifier
                 .fillMaxSize()

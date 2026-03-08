@@ -32,13 +32,12 @@ fun TitleSection(posterPath: String, title: String, tagline: String) {
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Poster Film Kecil
         Card(
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(8.dp),
             modifier = Modifier
                 .size(width = 100.dp, height = 150.dp)
-                .offset(y = (-20).dp) // Membuat poster sedikit naik ke area backdrop
+                .offset(y = (-20).dp)
         ) {
             AsyncImage(
                 model = posterPath,

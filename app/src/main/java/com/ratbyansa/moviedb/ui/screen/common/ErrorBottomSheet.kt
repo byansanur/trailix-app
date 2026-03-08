@@ -41,7 +41,7 @@ fun ErrorBottomSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .padding(bottom = 32.dp), // Beri jarak extra bawah
+                .padding(bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(

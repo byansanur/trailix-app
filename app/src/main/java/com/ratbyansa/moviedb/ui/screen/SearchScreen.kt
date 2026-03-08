@@ -98,11 +98,9 @@ fun SearchScreen(
         Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             when {
                 searchQuery.isEmpty() -> {
-                    // Gunakan LazyColumn agar Recent Search dan Favorites bisa di-scroll bersama
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         item {
                             if (history.isEmpty()) {
-                                // Placeholder jika benar-benar kosong semua
                                 if (favorites.isEmpty()) {
                                     EmptySearchPlaceholder(message = "Search your favorite movies")
                                 }
@@ -114,8 +112,6 @@ fun SearchScreen(
                                 )
                             }
                         }
-
-                        // Tampilkan Favorit jika ada
                         if (favorites.isNotEmpty()) {
                             item {
                                 Spacer(modifier = Modifier.height(8.dp))

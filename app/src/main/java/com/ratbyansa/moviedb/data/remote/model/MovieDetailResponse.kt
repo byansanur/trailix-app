@@ -16,12 +16,11 @@ data class MovieDetailResponse(
     @SerialName("release_date") val releaseDate: String = "",
     @SerialName("vote_average") val voteAverage: Double = 0.0,
     @SerialName("vote_count") val voteCount: Long = 0,
-    val runtime: Int = 0, // Dalam satuan menit
+    val runtime: Int = 0,
     val tagline: String = "",
     val genres: List<GenreDto> = emptyList(),
     val credits: CreditsResponse? = null
 ) {
-    // Fungsi pembantu untuk memformat data ke UI
     val releaseYear: String get() = releaseDate.take(4)
     val formattedRuntime: String get() {
         val hours = runtime / 60
@@ -32,7 +31,7 @@ data class MovieDetailResponse(
 
 fun MovieDetailResponse.toRoute(): String {
     val json = Json.encodeToString(this)
-    return Uri.encode(json) // Penting untuk meng-encode karakter khusus seperti "/"
+    return Uri.encode(json)
 }
 
 @Serializable

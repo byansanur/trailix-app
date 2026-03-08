@@ -50,7 +50,6 @@ fun ReviewItem(review: Review) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Logika Avatar pembersihan path /https/
                 val avatarUrl = remember(review.authorDetails.avatarPath) {
                     val path = review.authorDetails.avatarPath
                     when {

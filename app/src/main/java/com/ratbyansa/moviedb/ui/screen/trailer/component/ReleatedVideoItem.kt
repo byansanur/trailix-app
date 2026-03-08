@@ -49,7 +49,7 @@ fun RelatedVideoItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(backgroundColor) // background jika sedang diputar
+            .background(backgroundColor)
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {

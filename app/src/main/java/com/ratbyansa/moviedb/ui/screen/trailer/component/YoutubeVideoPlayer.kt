@@ -28,7 +28,6 @@ fun YoutubeVideoPlayer(
     var youtubePlayer by remember { mutableStateOf<YouTubePlayer?>(null) }
     var currentLoadedId by remember { mutableStateOf("") }
 
-    // untuk load video baru
     LaunchedEffect(cleanVideoId, youtubePlayer) {
         if (youtubePlayer != null && cleanVideoId.length == 11 && cleanVideoId != currentLoadedId) {
             currentLoadedId = cleanVideoId
@@ -48,7 +47,6 @@ fun YoutubeVideoPlayer(
 
             lifecycleOwner.lifecycle.addObserver(playerView)
 
-            // Konfigurasi untuk stabilitas
             playerView.enableAutomaticInitialization = false
             val options = IFramePlayerOptions.Builder(context)
                 .controls(1)

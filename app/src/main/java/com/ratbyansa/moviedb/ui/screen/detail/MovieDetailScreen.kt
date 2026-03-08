@@ -66,7 +66,6 @@ fun MovieDetailScreen(
     var showEmptyError by remember { mutableStateOf(false) }
     var errorMsg by remember { mutableStateOf("") }
 
-    // STATE UNTUK BOTTOM SHEET CAST
     var showCastSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(movieId) {
@@ -143,7 +142,7 @@ fun MovieDetailScreen(
                         movie.credits?.cast?.let { castList ->
                             CastSection(
                                 cast = castList,
-                                onSeeAllClick = { showCastSheet = true } // Munculkan sheet
+                                onSeeAllClick = { showCastSheet = true }
                             )
                         }
                     }
@@ -187,14 +186,9 @@ private fun goToTrailer(
     onNavigateToPlayer: (String, String) -> Unit
 ) {
     trailerKey?.let { key ->
-        // Encode movie json
         val movieJson = Json.encodeToString(movie)
         val encodedJson = Uri.encode(movieJson)
-
-        // PENTING: Encode juga video key-nya!
         val encodedKey = Uri.encode(key)
-
-        // Kirim data yang sudah di encode
         onNavigateToPlayer(encodedKey, encodedJson)
     }
 }

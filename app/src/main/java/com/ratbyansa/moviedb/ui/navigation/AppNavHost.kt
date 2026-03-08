@@ -74,7 +74,6 @@ fun AppNavHost(
             val genreName = backStackEntry.arguments?.getString("genreName") ?: ""
             val viewModel: MovieViewModel = koinViewModel()
 
-            // Panggil fungsi untuk ambil data berdasarkan genreId
             LaunchedEffect(genreId) {
                 viewModel.setGenre(genreId)
             }
@@ -96,7 +95,6 @@ fun AppNavHost(
             route = Screen.MovieDetail.route,
             arguments = listOf(navArgument("movieId") { type = NavType.LongType })
         ) { backStackEntry ->
-            // Implementasi DetailScreen nanti
             val movieId = backStackEntry.arguments?.getLong("movieId") ?: 0L
             val videoViewModel: VideoViewModel = koinViewModel()
             MovieDetailScreen(
@@ -133,7 +131,7 @@ fun AppNavHost(
             )
         ) { backStackEntry ->
             val rawVideoKey = backStackEntry.arguments?.getString("videoKey") ?: ""
-            val videoKey = Uri.decode(rawVideoKey) // Tambahkan baris ini!
+            val videoKey = Uri.decode(rawVideoKey)
 
             val rawMovieJson = backStackEntry.arguments?.getString("movieData") ?: ""
             val movieJson = Uri.decode(rawMovieJson)
@@ -141,7 +139,7 @@ fun AppNavHost(
             val movie = if (movieJson.isNotEmpty()) {
                 Json.decodeFromString<MovieDetailResponse>(movieJson)
             } else {
-                null // Berikan penanganan null jika perlu
+                null
             }
 
             if (movie != null) {

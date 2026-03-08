@@ -51,14 +51,14 @@ fun MovieItem(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(16.dp) // Sudut lebih membulat sesuai gambar
+        shape = RoundedCornerShape(16.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp) // Inner padding untuk seluruh konten kartu
+                .padding(16.dp)
         ) {
-            // Poster Film
+
             Card(
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.size(width = 100.dp, height = 150.dp)
@@ -74,12 +74,12 @@ fun MovieItem(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Informasi Film
+
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .height(150.dp),
-                verticalArrangement = Arrangement.SpaceBetween // Memisahkan judul dan rating
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
@@ -99,9 +99,9 @@ fun MovieItem(
                     )
                 }
 
-                // Badge Rating (Pojok Kiri Bawah di area teks)
+
                 Surface(
-                    color = Color(0xFFFFF8E1), // Kuning sangat muda untuk background rating
+                    color = Color(0xFFFFF8E1),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Row(

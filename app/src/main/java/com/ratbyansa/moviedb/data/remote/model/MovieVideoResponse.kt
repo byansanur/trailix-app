@@ -12,10 +12,10 @@ data class MovieVideoResponse(
 @Serializable
 data class MovieVideo(
     val id: String,
-    val key: String, // ID Video YouTube
+    val key: String,
     val name: String,
     val site: String,
-    val type: String, // "Trailer", "Teaser", dll
+    val type: String,
     val official: Boolean,
     @SerialName("published_at")
     val publishedAt: String

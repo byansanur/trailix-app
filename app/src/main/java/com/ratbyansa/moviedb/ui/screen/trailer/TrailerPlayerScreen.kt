@@ -122,7 +122,6 @@ fun TrailerPlayerScreen(
                 .fillMaxSize()
                 .background(Color(0xFFF3F4F6))
         ) {
-            // Fixed area
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -197,7 +196,7 @@ fun TrailerPlayerScreen(
                 val relatedVideos = videoList.filter { it.site == "YouTube" }
 
                 items(relatedVideos) { video ->
-                    val isPlaying = video.key == currentPlayingKey // Cek apakah video ini yang sedang diputar
+                    val isPlaying = video.key == currentPlayingKey
 
                     RelatedVideoItem(
                         title = video.name,

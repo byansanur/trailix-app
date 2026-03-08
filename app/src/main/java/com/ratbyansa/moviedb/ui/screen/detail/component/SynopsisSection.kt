@@ -36,7 +36,6 @@ fun SynopsisSection(overview: String) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             lineHeight = 22.sp,
-            // Jika tidak expand, batasi maksimal 4 baris
             maxLines = if (isExpanded) Int.MAX_VALUE else 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -48,7 +47,7 @@ fun SynopsisSection(overview: String) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(top = 4.dp)
-                .clickable { isExpanded = !isExpanded } // Toggle state
+                .clickable { isExpanded = !isExpanded }
         )
     }
 }

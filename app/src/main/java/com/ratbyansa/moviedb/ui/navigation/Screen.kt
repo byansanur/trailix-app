@@ -3,7 +3,6 @@ package com.ratbyansa.moviedb.ui.navigation
 sealed class Screen(val route: String) {
     object GenreList : Screen("genre_list")
 
-    // Rute dengan argumen: genreId dan genreName untuk Judul Toolbar
     object MovieList : Screen("movie_list/{genreId}/{genreName}") {
         fun createRoute(genreId: Long, genreName: String) = "movie_list/$genreId/$genreName"
     }

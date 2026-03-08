@@ -159,7 +159,7 @@ fun GenreScreen(
 
                                 if (rowIndex == 2 && rowItems.size == 1) {
                                     Box(modifier = Modifier.weight(1f)) {
-                                        SeeMoreCard(onClick = { showBottomSheet = true }) // Trigger BottomSheet
+                                        SeeMoreCard(onClick = { showBottomSheet = true })
                                     }
                                 } else if (rowItems.size < 2) {
                                     Spacer(modifier = Modifier.weight(1f))
@@ -210,7 +210,7 @@ fun SeeMoreCard(onClick: () -> Unit) {
             .height(140.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)), // Abu-abu terang
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
         border = BorderStroke(1.dp, Color.LightGray)
     ) {
         Column(

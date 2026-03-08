@@ -13,6 +13,5 @@ data class MovieEntity(
     val backdropPath: String?,
     val releaseDate: String,
     val voteAverage: Double,
-    // Kita simpan ID genre yang sedang dibuka agar bisa memfilter data saat offline
     val genreId: Long
 )

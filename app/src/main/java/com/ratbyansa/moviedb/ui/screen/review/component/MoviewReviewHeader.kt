@@ -40,7 +40,6 @@ fun MovieReviewHeader(movie: MovieDetailResponse, totalReviews: Long, background
                 .padding(horizontal = 16.dp, vertical = 24.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Poster kecil dengan border halus
             Card(
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier

@@ -40,14 +40,10 @@ fun ReviewScreen(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            // Menjadikan ikon status bar berwarna putih (light status bars = false)
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
-            // Opsional: Jika ingin warna status bar sama persis dengan toolbar
             window.statusBarColor = headerColor.toArgb()
         }
     }
-
-    // Trigger pengambilan data saat movieId tersedia
     LaunchedEffect(movie.id) {
         viewModel.setMovieId(movie.id)
     }
@@ -91,9 +87,7 @@ fun ReviewScreen(
                         }
                     }
                 }
-
-                // Handling Loading State di bagian bawah (saat scroll)
-                when (val state = reviews.loadState.append) {
+                when (reviews.loadState.append) {
                     is LoadState.Loading -> {
                         item {
                             Box(Modifier.fillMaxWidth().padding(8.dp), contentAlignment = Alignment.Center) {
@@ -109,13 +103,9 @@ fun ReviewScreen(
                     else -> {}
                 }
             }
-
-            // Initial Loading State (saat pertama kali buka)
             if (reviews.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
-
-            // Empty State
             if (reviews.loadState.refresh is LoadState.NotLoading && reviews.itemCount == 0) {
                 Text(
                     text = "Belum ada review untuk film ini.",

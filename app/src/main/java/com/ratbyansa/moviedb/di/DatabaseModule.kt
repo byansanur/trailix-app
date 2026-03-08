@@ -26,8 +26,6 @@ fun provideDatabase(context: Context): MovieDatabase {
 
 val databaseModule = module {
     single { provideDatabase(androidContext()) }
-
-    // Menyediakan DAO secara spesifik agar mudah di-inject ke Repository
     single { get<MovieDatabase>().movieDao() }
     single { get<MovieDatabase>().genreDao() }
     single { get<MovieDatabase>().remoteKeysDao() }

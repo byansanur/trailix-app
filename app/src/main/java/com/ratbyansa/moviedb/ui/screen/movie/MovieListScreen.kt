@@ -79,8 +79,6 @@ fun MovieListScreen(
                     }
                 }
             }
-
-            // Penanganan State Loading & Error (Story 7)
             moviePagingItems.apply {
                 when {
                     loadState.refresh is LoadState.Loading -> {
