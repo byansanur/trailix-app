@@ -21,9 +21,12 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -54,9 +57,11 @@ import com.ratbyansa.moviedb.ui.common.UiState
 import com.ratbyansa.moviedb.ui.screen.common.AllGenresBottomSheet
 import com.ratbyansa.moviedb.ui.screen.common.ErrorBottomSheet
 import com.ratbyansa.moviedb.ui.screen.common.FavoriteQuickActionRow
+import com.ratbyansa.moviedb.ui.theme.genrePallet
 import com.ratbyansa.moviedb.ui.viewmodel.FavoriteViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.GenreViewModel
 import org.koin.androidx.compose.koinViewModel
+import kotlin.math.abs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -232,17 +237,25 @@ fun SeeMoreCard(onClick: () -> Unit) {
 
 
 fun getGenreStyle(name: String): Triple<Color, ImageVector, String> {
-    return when (name) {
-        "Action" -> Triple(Color(0xFFE57373), Icons.Default.Search, "High energy & stunts")
-        "Comedy" -> Triple(Color(0xFFFFB74D), Icons.Default.Build, "Laugh out loud")
-        "Drama" -> Triple(Color(0xFF9575CD), Icons.Default.AccountBox, "Emotional narratives")
-        "Science Fiction" -> Triple(Color(0xFF64B5F6), Icons.Default.Star, "Future & space")
-        "Horror" -> Triple(Color(0xFF4DB6AC), Icons.Default.Face, "Thrills & chills")
-        "Romance" -> Triple(Color(0xFFF06292), Icons.Default.Favorite, "Love stories")
-        else -> Triple(Color(0xFF81C784), Icons.Default.Email, "Explore collection")
-    }
-}
+    val colorIndex = abs(name.hashCode()) % genrePallet.size
+    val randomColor = genrePallet[colorIndex]
 
+    val (icon, subtitle) = when (name.lowercase()) {
+        "action", "abenteuer", "adventure" -> Icons.Default.Search to "High energy & stunts"
+        "comedy", "komödie", "fantasy" -> Icons.Default.Build to "Laugh out loud"
+        "drama", "animation" -> Icons.Default.AccountBox to "Emotional narratives"
+        "science fiction", "western" -> Icons.Default.Star to "Future & space"
+        "horror", "history", "historie" -> Icons.Default.Face to "Thrills & chills"
+        "romance", "liebesfilm", "thriller" -> Icons.Default.Favorite to "Love stories"
+        "krimi", "crime" -> Icons.Default.Search to "Mystery & Crime"
+        "dokumentarfilm", "documentary" -> Icons.Default.Info to "Real life stories"
+        "familie", "family" -> Icons.Default.Face to "Fun for everyone"
+        "musik", "music" -> Icons.Default.PlayArrow to "Melodies & tunes"
+        "kriegsfilm", "war" -> Icons.Default.Warning to "Epic battles"
+        else -> Icons.Default.PlayArrow to "Explore collection"
+    }
+    return Triple(randomColor, icon, subtitle)
+}
 @Composable
 fun GenreCard(
     genre: GenreEntity,

@@ -19,3 +19,18 @@ val recentSearchColors = listOf(
     Color(0xFFF06292),
     Color(0xFF81C784)
 )
+
+val genrePallet = listOf(
+    Color(0xFFE57373),
+    Color(0xFFFFB74D),
+    Color(0xFF9575CD),
+    Color(0xFF64B5F6),
+    Color(0xFF4DB6AC),
+    Color(0xFFF06292),
+    Color(0xFF81C784),
+    Color(0xFFFFD54F),
+    Color(0xFFBA68C8),
+    Color(0xFF7986CB),
+    Color(0xFFA1887F),
+    Color(0xFF4DD0E1)
+)
