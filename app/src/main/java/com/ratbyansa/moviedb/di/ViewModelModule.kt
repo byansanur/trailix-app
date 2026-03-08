@@ -6,6 +6,7 @@ import com.ratbyansa.moviedb.ui.viewmodel.MovieDetailViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.MovieViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.ReviewViewModel
 import com.ratbyansa.moviedb.ui.viewmodel.SearchViewModel
+import com.ratbyansa.moviedb.ui.viewmodel.VideoViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -16,4 +17,5 @@ val viewModelModule = module {
     viewModel { MovieDetailViewModel(get(), get()) }
     viewModel { FavoriteViewModel(get()) }
     viewModel { ReviewViewModel(get()) }
+    viewModel { VideoViewModel(get()) }
 }
