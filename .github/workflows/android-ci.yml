@@ -1,0 +1,59 @@
+name: Android CI
+
+# CI akan berjalan setiap ada Push atau Pull Request ke branch 'main' atau 'master'
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Mengambil kode dari repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Java Development Kit (JDK) 11 (Sesuai dengan gradle project-mu)
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      # 3. Setup Gradle dan Cache (Agar build selanjutnya lebih cepat)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      # 4. Membuat local.properties dan memasukkan semua Secret Variables
+      - name: Create local.properties
+        run: |
+          touch local.properties
+          echo "baseUrl=${{ secrets.BASE_URL }}" >> local.properties
+          echo "imageUrl=${{ secrets.IMAGE_URL }}" >> local.properties
+          echo "apiKey=${{ secrets.API_KEY }}" >> local.properties
+          echo "accessToken=${{ secrets.ACCESS_TOKEN }}" >> local.properties
+          echo "dbKeySecretSha256=${{ secrets.DB_KEY_SECRET }}" >> local.properties
+
+      # 5. Memberikan akses eksekusi pada file gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # 6. Menjalankan Linter & Unit Test (Disarankan agar kode tetap bersih)
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest
+
+      # 7. Melakukan Build APK versi Debug
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      # 8. Mengunggah hasil APK agar bisa di-download dari halaman GitHub Actions
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 7
