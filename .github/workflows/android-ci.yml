@@ -31,12 +31,13 @@ jobs:
       # 4. Membuat local.properties dan memasukkan semua Secret Variables
       - name: Create local.properties
         run: |
-          touch local.properties
-          echo "baseUrl=${{ secrets.BASE_URL }}" >> local.properties
-          echo "imageUrl=${{ secrets.IMAGE_URL }}" >> local.properties
-          echo "apiKey=${{ secrets.API_KEY }}" >> local.properties
-          echo "accessToken=${{ secrets.ACCESS_TOKEN }}" >> local.properties
-          echo "dbKeySecretSha256=${{ secrets.DB_KEY_SECRET }}" >> local.properties
+            cat <<EOF > local.properties
+            baseUrl=${{ secrets.BASE_URL }}
+            imageUrl=${{ secrets.IMAGE_URL }}
+            apiKey=${{ secrets.API_KEY }}
+            accessToken=${{ secrets.ACCESS_TOKEN }}
+            dbKeySecretSha256=${{ secrets.DB_KEY_SECRET }}
+            EOF
 
       # 5. Memberikan akses eksekusi pada file gradlew
       - name: Grant execute permission for gradlew
